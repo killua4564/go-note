@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+
+  go-note:
+    build: .
+    image: go-note
+    container_name: go-note
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/go/src/github.com/killua4564/go-note
+    working_dir: /go/src/github.com/killua4564/go-note
+    env_file:
+      - env/note.env
+    command: go run main.go
+    restart: always
+    networks:
+      - go-note
+
+  go-note-db:
+    image: mariadb:10.5
+    container_name: go-note-db
+    environment:
+      MYSQL_USER: go-note
+      MYSQL_DATABASE: go-note
+      MYSQL_ROOT_PASSWORD: 9BQGu#3YgfUX73Pl
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+    networks:
+      - go-note
+
+networks:
+  go-note:
+    name: go-note
+
