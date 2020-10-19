@@ -23,7 +23,7 @@ var url = struct {
 	login:  "/account/login",
 }
 
-func AccountSerivce(router *gin.RouterGroup, dbconn *sql.DB, cfg *config.Config) {
+func AccountService(router *gin.RouterGroup, dbconn *sql.DB, cfg *config.Config) {
 	api := &api{
 		cfg: cfg,
 		loader: &loader{
