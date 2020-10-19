@@ -80,7 +80,7 @@ func (api *api) login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"message": fmt.Sprintf("%s:%s", account.username, hash.HS256(account.username)),
+		"message": fmt.Sprintf("%s:%s", account.Username, hash.HS256(account.Username)),
 		"error":   nil,
 	})
 	return

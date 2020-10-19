@@ -1,7 +1,7 @@
 package account
 
 type Account struct {
-	username string `json:"username"`
+	Username string `json:"username"`
 }
 
 type validateAccount struct {

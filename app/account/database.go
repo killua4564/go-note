@@ -45,7 +45,7 @@ func (l *loader) getAccount(username string, password string) (*Account, error) 
 	}
 
 	var account Account
-	if err := row.Scan(&account.username); err != nil {
+	if err := row.Scan(&account.Username); err != nil {
 		return nil, err
 	}
 
