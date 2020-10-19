@@ -3,7 +3,7 @@ USE 'go-note'
 CREATE TABLE `account` (
 	`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 	`username` varchar(32) NOT NULL UNIQUE,
-	`password` varchar(32) NOT NULL,
+	`password` varchar(64) NOT NULL,
 	`create_time` bigint(20) NULL DEFAULT NULL,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;

@@ -11,7 +11,7 @@ services:
       - .:/go/src/github.com/killua4564/go-note
     working_dir: /go/src/github.com/killua4564/go-note
     env_file:
-      - env/note.env
+      - note.env
     command: go run main.go
     restart: always
     networks:
@@ -23,7 +23,7 @@ services:
     environment:
       MYSQL_USER: go-note
       MYSQL_DATABASE: go-note
-      MYSQL_ROOT_PASSWORD: 9BQGu#3YgfUX73Pl
+      MYSQL_ROOT_PASSWORD: 9BQGu3YgfUX73Plv
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     restart: always
