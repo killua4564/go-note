@@ -21,7 +21,7 @@ func initDB() (db *sql.DB) {
 		panic(err)
 	}
 
-	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8", dbcfg.Username, dbcfg.Password, dbcfg.Hostname, dbcfg.DBname))
+	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@tcp(%s:4040)/%s?charset=utf8", dbcfg.Username, dbcfg.Password, dbcfg.Hostname, dbcfg.DBname))
 	if err != nil {
 		panic(err)
 	}

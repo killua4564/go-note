@@ -13,15 +13,39 @@ services:
     networks:
       - go-note
 
-  go-note-db:
+  go-note-db-master:
     image: mariadb:10.5
-    container_name: go-note-db
+    container_name: go-note-db-master
     environment:
       MYSQL_USER: go-note
       MYSQL_DATABASE: go-note
       MYSQL_ROOT_PASSWORD: 9BQGu3YgfUX73Plv
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+    networks:
+      - go-note
+
+  go-note-db-slave:
+    image: mariadb:10.5
+    container_name: go-note-db-slave
+    environment:
+      MYSQL_USER: go-note
+      MYSQL_DATABASE: go-note
+      MYSQL_ROOT_PASSWORD: 9BQGu3YgfUX73Plv
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+    networks:
+      - go-note
+
+  go-note-db-proxy:
+    build: 
+      context: .
+      dockerfile: Dockerfile.proxy
+    image: mysql-proxy
+    container_name: go-note-db-proxy
+    command: sleep 600000
     restart: always
     networks:
       - go-note

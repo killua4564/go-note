@@ -1,0 +1,11 @@
+FROM	ubuntu:latest
+
+RUN 	apt update && apt install -y wget
+RUN 	wget https://downloads.mysql.com/archives/get/p/21/file/mysql-proxy-0.8.5-linux-debian6.0-x86-64bit.tar.gz && \
+		tar zxvf mysql-proxy-0.8.5-linux-debian6.0-x86-64bit.tar.gz && \ 
+		mv mysql-proxy-0.8.5-linux-debian6.0-x86-64bit mysql-proxy && \ 
+		rm -rf mysql-proxy-0.8.5-linux-debian6.0-x86-64bit.tar.gz
+
+COPY    proxy.conf /mysql-proxy/proxy.conf
+RUN 	chmod 660 /mysql-proxy/proxy.conf
+CMD     ["/mysql-proxy/bin/mysql-proxy", "--defaults-file=/mysql-proxy/proxy.conf"]
