@@ -8,9 +8,11 @@ import (
 
 	"github.com/caarlos0/env"
 	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/killua4564/go-note/app/account"
+	"github.com/killua4564/go-note/app/note"
 	"github.com/killua4564/go-note/config"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func initDB() (db *sql.DB) {
@@ -52,6 +54,7 @@ func main() {
 	router := engine.Group("/api", func(c *gin.Context) {})
 
 	account.AccountService(router, db, &cfg)
+	note.NoteService(router, db, &cfg)
 
 	engine.Run(":8080")
 }
