@@ -27,7 +27,7 @@ func AccountService(router *gin.RouterGroup, dbconn *sql.DB, cfg *config.Config)
 	api := &api{
 		cfg: cfg,
 		loader: &loader{
-			db: dbconn,
+			runner: dbconn,
 		},
 	}
 

@@ -7,19 +7,21 @@ import (
 	"github.com/killua4564/go-note/utils/hash"
 )
 
+type SessionRunner interface {
+	Exec(query string, args ...interface{}) (sql.Result, error)
+	Query(query string, args ...interface{}) (*sql.Rows, error)
+	QueryRow(query string, args ...interface{}) *sql.Row
+}
+
 type loader struct {
-	db *sql.DB
+	runner *sql.SessionRunner
 }
 
 func (l *loader) createAccount(username string, password string) (int64, error) {
 	password = hash.PBKDF2(password)
 	create_time := time.Now().UnixNano() / 1e6
-	var args []interface{} = []interface{}{
-		username, password, create_time,
-	}
-
 	query := "INSERT INTO `account` (`username`, `password`, `create_time`) VALUES (?, ?, ?);"
-	result, err := l.db.Exec(query, args...)
+	result, err := l.runner.Exec(query, username, password, create_time)
 	if err != nil {
 		return 0, err
 	}
@@ -34,12 +36,8 @@ func (l *loader) createAccount(username string, password string) (int64, error) 
 
 func (l *loader) getAccount(username string, password string) (*Account, error) {
 	password = hash.PBKDF2(password)
-	var args []interface{} = []interface{}{
-		username, password,
-	}
-
 	query := "SELECT `username` FROM `account` WHERE username=? AND password=?;"
-	row := l.db.QueryRow(query, args...)
+	row := l.runner.QueryRow(query, username, password)
 	if row.Err() != nil {
 		return nil, row.Err()
 	}
