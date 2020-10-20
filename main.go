@@ -51,7 +51,7 @@ func main() {
 
 	router := engine.Group("/api", func(c *gin.Context) {})
 
-	account.AccountSerivce(router, db, &cfg)
+	account.AccountService(router, db, &cfg)
 
 	engine.Run(":8080")
 }

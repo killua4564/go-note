@@ -23,11 +23,11 @@ var url = struct {
 	login:  "/account/login",
 }
 
-func AccountSerivce(router *gin.RouterGroup, dbconn *sql.DB, cfg *config.Config) {
+func AccountService(router *gin.RouterGroup, dbconn *sql.DB, cfg *config.Config) {
 	api := &api{
 		cfg: cfg,
 		loader: &loader{
-			db: dbconn,
+			runner: dbconn,
 		},
 	}
 
@@ -71,16 +71,23 @@ func (api *api) login(c *gin.Context) {
 	}
 
 	account, err := api.loader.getAccount(validate.Username, validate.Password)
-	if err != nil {
+	if err != nil && err != sql.ErrNoRows {
 		c.JSON(http.StatusInternalServerError, map[string]interface{}{
 			"message": "get account error",
 			"error":   err,
 		})
 		return
 	}
+	if err == sql.ErrNoRows {
+		c.JSON(http.StatusBadRequest, map[string]interface{}{
+			"message": "account not found",
+			"error":   nil,
+		})
+		return
+	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"message": fmt.Sprintf("%s:%s", account.username, hash.HS256(account.username)),
+		"message": fmt.Sprintf("%s:%s", account.Username, hash.HS256(account.Username)),
 		"error":   nil,
 	})
 	return
