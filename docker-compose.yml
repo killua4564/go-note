@@ -7,12 +7,8 @@ services:
     container_name: go-note
     ports:
       - 8080:8080
-    volumes:
-      - .:/go/src/github.com/killua4564/go-note
-    working_dir: /go/src/github.com/killua4564/go-note
     env_file:
       - note.env
-    command: go run main.go
     restart: always
     networks:
       - go-note

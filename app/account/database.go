@@ -14,7 +14,7 @@ type SessionRunner interface {
 }
 
 type loader struct {
-	runner *sql.SessionRunner
+	runner SessionRunner
 }
 
 func (l *loader) createAccount(username string, password string) (int64, error) {
